@@ -106,17 +106,40 @@ app
     );
   })
 
-  .put(function(req,res){
+  .put(function (req, res) {
     Article.replaceOne(
-        {title : req.params.articleTitle},
-        {title : req.body.title, content: req.body.content },
- 
-        function(err){
-            if(!err){
-                res.send("Successfully updated article.");
-            }else {
-                res.send(err)
-            }
+      { title: req.params.articleTitle },
+      { title: req.body.title, content: req.body.content },
+      function (err) {
+        if (!err) {
+          res.send("Successfully updated the article.");
+        } else {
+          res.send(err);
         }
-    )
-});
+      }
+    );
+  })
+
+  .patch(function (req, res) {
+    Article.updateOne(
+      { title: req.params.articleTitle },
+      { $set: req.body },
+      function (err) {
+        if (!err) {
+          res.send("Successfully updated the article.");
+        } else {
+          res.send(err);
+        }
+      }
+    );
+  })
+
+  .delete(function (req, res) {
+    Article.deleteOne({ title: req.params.articleTitle }, function (err) {
+      if (!err) {
+        res.send("Successfully deleted the corresponding article.");
+      } else {
+        res.send(err);
+      }
+    });
+  });
